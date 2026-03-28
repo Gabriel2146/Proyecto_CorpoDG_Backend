@@ -17,5 +17,8 @@ db.sqlite3
 .vscode/
 .idea/
 
+# Salesforce DX
+.sfdx/
+
 # Static files (se generarán en el servidor)
 staticfiles/
