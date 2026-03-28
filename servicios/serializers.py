@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cliente, Solicitud, Destino, Vuelo, Region, PaisRegion, Ciudad, Aerolinea, Aeropuerto, PaqueteTuristico
+from .models import Cliente, Solicitud, Destino, Vuelo, Region, PaisRegion, Ciudad, Aerolinea, Aeropuerto, PaqueteTuristico, TipoPaquete, Temporada
 from .notifications import enviar_whatsapp_contacto, enviar_correo_contacto
 
 
@@ -276,6 +276,18 @@ class AeropuertoAutocompleteSerializer(serializers.ModelSerializer):
         ciudad = obj.ciudad.nombre if obj.ciudad else (obj.nombre_ciudad or '')
         pais = obj.pais.nombre if obj.pais else ''
         return f"{obj.codigo_iata} - {obj.nombre}, {ciudad}, {pais}"
+
+
+class TipoPaqueteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoPaquete
+        fields = ['id', 'nombre']
+
+
+class TemporadaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Temporada
+        fields = ['id', 'nombre']
 
 
 class PaqueteTuristicoListSerializer(serializers.ModelSerializer):

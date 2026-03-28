@@ -15,12 +15,14 @@
 11. [Endpoints de Ciudades](#endpoints-de-ciudades)
 12. [Endpoints de Aerolíneas](#endpoints-de-aerolíneas)
 13. [Endpoints de Aeropuertos](#endpoints-de-aeropuertos)
-14. [Endpoints de Paquetes Turísticos](#endpoints-de-paquetes-turísticos)
-15. [Endpoints AJAX para Admin](#endpoints-ajax-para-admin)
-16. [Modelos de Datos](#modelos-de-datos)
-17. [Filtros Disponibles](#filtros-disponibles)
-18. [Notas Adicionales](#notas-adicionales)
-19. [Ejemplos de Uso](#ejemplos-de-uso)
+14. [Endpoints de Tipos de Paquete](#endpoints-de-tipos-de-paquete)
+15. [Endpoints de Temporadas](#endpoints-de-temporadas)
+16. [Endpoints de Paquetes Turísticos](#endpoints-de-paquetes-turísticos)
+17. [Endpoints AJAX para Admin](#endpoints-ajax-para-admin)
+18. [Modelos de Datos](#modelos-de-datos)
+19. [Filtros Disponibles](#filtros-disponibles)
+20. [Notas Adicionales](#notas-adicionales)
+21. [Ejemplos de Uso](#ejemplos-de-uso)
 
 ---
 
@@ -37,6 +39,22 @@
 |---------|-------------|
 | `/admin/` | Panel de administración de Django |
 | `/api/` | Todas las APIs REST |
+
+**Rutas registradas en el router:**
+| Ruta | ViewSet |
+|------|--------|
+| `/api/clientes/` | `ClienteViewSet` |
+| `/api/solicitudes/` | `SolicitudViewSet` |
+| `/api/destinos/` | `DestinoViewSet` |
+| `/api/vuelos/` | `VueloViewSet` |
+| `/api/regiones/` | `RegionViewSet` |
+| `/api/paises-region/` | `PaisRegionViewSet` |
+| `/api/ciudades/` | `CiudadViewSet` |
+| `/api/aerolineas/` | `AerolineaViewSet` |
+| `/api/aeropuertos/` | `AeropuertoViewSet` |
+| `/api/paquetes/` | `PaqueteTuristicoViewSet` |
+| `/api/tipos-paquete/` | `TipoPaqueteViewSet` |
+| `/api/temporadas/` | `TemporadaViewSet` |
 
 ---
 
@@ -926,6 +944,90 @@ Actualmente, las APIs están configuradas sin autenticación para facilitar el a
 {
   "results": [],
   "message": "Ingresa al menos 2 caracteres para buscar"
+}
+```
+
+---
+
+## 📦 Endpoints de Tipos de Paquete
+
+> **ViewSet:** `TipoPaqueteViewSet` — Solo lectura (`GET`)
+
+### 1. Listar todos los tipos de paquete
+
+- **Método:** `GET`
+- **Endpoint:** `/api/tipos-paquete/`
+- **Descripción:** Obtiene una lista de todos los tipos de paquete activos
+- **Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Todo Incluido"
+  },
+  {
+    "id": 2,
+    "nombre": "Vacaciones"
+  },
+  {
+    "id": 3,
+    "nombre": "Aventura"
+  }
+]
+```
+
+### 2. Obtener un tipo de paquete específico
+
+- **Método:** `GET`
+- **Endpoint:** `/api/tipos-paquete/{id}/`
+- **Descripción:** Obtiene los detalles de un tipo de paquete específico
+- **Respuesta:**
+
+```json
+{
+  "id": 1,
+  "nombre": "Todo Incluido"
+}
+```
+
+---
+
+## 🗓️ Endpoints de Temporadas
+
+> **ViewSet:** `TemporadaViewSet` — Solo lectura (`GET`)
+
+### 1. Listar todas las temporadas
+
+- **Método:** `GET`
+- **Endpoint:** `/api/temporadas/`
+- **Descripción:** Obtiene una lista de todas las temporadas activas
+- **Respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Temporada Alta"
+  },
+  {
+    "id": 2,
+    "nombre": "Temporada Baja"
+  }
+]
+```
+
+### 2. Obtener una temporada específica
+
+- **Método:** `GET`
+- **Endpoint:** `/api/temporadas/{id}/`
+- **Descripción:** Obtiene los detalles de una temporada específica
+- **Respuesta:**
+
+```json
+{
+  "id": 1,
+  "nombre": "Temporada Alta"
 }
 ```
 
