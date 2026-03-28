@@ -101,9 +101,23 @@ class VueloSerializer(serializers.ModelSerializer):
     aerolinea_iata = serializers.CharField(source='aerolinea.codigo_iata', read_only=True)
     origen_nombre = serializers.CharField(source='origen.nombre', read_only=True)
     origen_pais = serializers.CharField(source='origen.pais.nombre', read_only=True)
+    origen_ciudad = serializers.SerializerMethodField()
+    origen_codigo_iata = serializers.CharField(source='origen.codigo_iata', read_only=True)
     destino_nombre = serializers.CharField(source='destino.nombre', read_only=True)
     destino_pais = serializers.CharField(source='destino.pais.nombre', read_only=True)
-    
+    destino_ciudad = serializers.SerializerMethodField()
+    destino_codigo_iata = serializers.CharField(source='destino.codigo_iata', read_only=True)
+
+    def get_origen_ciudad(self, obj):
+        if obj.origen:
+            return obj.origen.ciudad.nombre if obj.origen.ciudad else obj.origen.nombre_ciudad or None
+        return None
+
+    def get_destino_ciudad(self, obj):
+        if obj.destino:
+            return obj.destino.ciudad.nombre if obj.destino.ciudad else obj.destino.nombre_ciudad or None
+        return None
+
     class Meta:
         model = Vuelo
         fields = '__all__'

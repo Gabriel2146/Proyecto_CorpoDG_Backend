@@ -2,6 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
+from django.db.models import Case, When, Value, IntegerField
 import re
 from .models import Cliente, Solicitud, Destino, Vuelo, Region, PaisRegion, Ciudad, Aerolinea, Aeropuerto, PaqueteTuristico, TipoPaquete, Temporada, TipoViaje
 
@@ -137,11 +138,11 @@ class VueloAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Selección de Origen', {
             'fields': ('ciudad_origen_filtro', 'origen'),
-            'description': 'Busca una ciudad para autocompletar el aeropuerto con los de su país (opcional).'
+            'description': 'Busca una ciudad origen para autocompletar el aeropuerto con los de su país.'
         }),
         ('Selección de Destino', {
             'fields': ('ciudad_destino_filtro', 'destino'),
-            'description': 'Busca una ciudad para autocompletar el aeropuerto con los de su país (opcional).'
+            'description': 'Busca una ciudad destino para autocompletar el aeropuerto con los de su país.'
         }),
         ('Detalles del Vuelo', {
             'fields': ('aerolinea', 'duracion', 'precio', 'moneda', 'imagen_url', 'mensaje_reserva')
@@ -252,7 +253,17 @@ class CiudadAdmin(admin.ModelAdmin):
         pais_id = request.GET.get('pais_id')
         if pais_id:
             queryset = queryset.filter(pais_id=pais_id)
-            
+
+        # Priorizar Quito y Guayaquil en los resultados de autocompletado
+        queryset = queryset.annotate(
+            prioridad=Case(
+                When(nombre__iexact='Quito', then=Value(0)),
+                When(nombre__iexact='Guayaquil', then=Value(1)),
+                default=Value(2),
+                output_field=IntegerField(),
+            )
+        ).order_by('prioridad', 'nombre')
+
         return queryset, may_have_duplicates
 
     fieldsets = (
