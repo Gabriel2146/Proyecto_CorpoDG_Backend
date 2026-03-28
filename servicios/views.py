@@ -4,14 +4,15 @@ from rest_framework.views import APIView
 from .searchFlights import buscar_vuelos_sabre
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from .models import Cliente, Solicitud, Destino, Vuelo, Region, PaisRegion, Ciudad, Aerolinea, Aeropuerto, PaqueteTuristico, ConfiguracionDestacados, OrdenVueloDestacado, OrdenPaqueteDestacado, OrdenDestinoDestacado
+from .models import Cliente, Solicitud, Destino, Vuelo, Region, PaisRegion, Ciudad, Aerolinea, Aeropuerto, PaqueteTuristico, ConfiguracionDestacados, OrdenVueloDestacado, OrdenPaqueteDestacado, OrdenDestinoDestacado, TipoPaquete, Temporada
 from .serializers import (
     ClienteSerializer, SolicitudSerializer, ContactoSerializer,
     DestinoSerializer, VueloSerializer,
     RegionSerializer, RegionListSerializer,
     PaisRegionSerializer, PaisRegionListSerializer, CiudadSerializer, AerolineaSerializer,
     AeropuertoSerializer, AeropuertoListSerializer, AeropuertoAutocompleteSerializer,
-    PaqueteTuristicoListSerializer, PaqueteTuristicoDetailSerializer
+    PaqueteTuristicoListSerializer, PaqueteTuristicoDetailSerializer,
+    TipoPaqueteSerializer, TemporadaSerializer
 )
 
 
@@ -358,6 +359,18 @@ class AeropuertoViewSet(viewsets.ReadOnlyModelViewSet):
             'results': serializer.data,
             'count': len(serializer.data)
         })
+
+
+class TipoPaqueteViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet para tipos de paquete (solo lectura)"""
+    queryset = TipoPaquete.objects.filter(activo=True)
+    serializer_class = TipoPaqueteSerializer
+
+
+class TemporadaViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet para temporadas (solo lectura)"""
+    queryset = Temporada.objects.filter(activo=True)
+    serializer_class = TemporadaSerializer
 
 
 class PaqueteTuristicoViewSet(viewsets.ReadOnlyModelViewSet):
