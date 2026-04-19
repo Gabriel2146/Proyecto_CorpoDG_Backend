@@ -173,3 +173,6 @@ SABRE_TOKEN_REFRESH_MARGIN = config('SABRE_TOKEN_REFRESH_MARGIN', default=60, ca
 
 # Compatibilidad temporal para scripts antiguos.
 AUTH_TOKEN = config('AUTH_TOKEN', default='')
+
+# CHATBOT AI CONFIGURATION (Groq)
+GROQ_API_KEY = config('GROQ_API_KEY', default='')
