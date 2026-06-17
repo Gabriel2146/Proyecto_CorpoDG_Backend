@@ -195,6 +195,7 @@ class RegionViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=True, methods=['get'])
     def paquetes(self, request, pk=None):
         """Obtener paquetes de una región específica"""
+        PaqueteTuristico.sincronizar_vigencia()
         region = self.get_object()
         paquetes = region.paquetes.filter(activo=True)
         serializer = PaqueteTuristicoListSerializer(paquetes, many=True)
@@ -228,6 +229,7 @@ class PaisRegionViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=True, methods=['get'])
     def paquetes(self, request, pk=None):
         """Obtener paquetes de un país específico"""
+        PaqueteTuristico.sincronizar_vigencia()
         pais = self.get_object()
         paquetes = pais.paquetes.filter(activo=True)
         serializer = PaqueteTuristicoListSerializer(paquetes, many=True)
@@ -391,6 +393,9 @@ class PaqueteTuristicoViewSet(viewsets.ReadOnlyModelViewSet):
         return PaqueteTuristicoListSerializer
     
     def get_queryset(self):
+        # Sincronizar el estado según la fecha de vigencia (desactiva vencidos, reactiva vigentes)
+        PaqueteTuristico.sincronizar_vigencia()
+
         queryset = super().get_queryset()
         
         # Filtrar por región
@@ -433,6 +438,9 @@ class PaqueteTuristicoViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['get'])
     def destacados(self, request):
         """Obtener paquetes destacados (ordenados según admin general y limitados)"""
+        # Sincronizar el estado según la fecha de vigencia (desactiva vencidos, reactiva vigentes)
+        PaqueteTuristico.sincronizar_vigencia()
+
         config = ConfiguracionDestacados.load()
         
         ordenados_qs = OrdenPaqueteDestacado.objects.filter(
@@ -457,6 +465,9 @@ class PaqueteTuristicoViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['get'])
     def por_region(self, request):
         """Obtener paquetes agrupados por región"""
+        # Sincronizar el estado según la fecha de vigencia (desactiva vencidos, reactiva vigentes)
+        PaqueteTuristico.sincronizar_vigencia()
+
         regiones = Region.objects.filter(activo=True)
         resultado = []
         

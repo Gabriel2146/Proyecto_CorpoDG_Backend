@@ -22,3 +22,7 @@ db.sqlite3
 
 # Static files (se generarán en el servidor)
 staticfiles/
+
+# Carpetas excluidas del repositorio
+docs/
+test/
