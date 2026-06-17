@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 import re
 
 
@@ -499,6 +500,44 @@ class PaqueteTuristico(GoogleDrivePDFMixin, models.Model):
         """Retorna la región y destino completo"""
         ciudad = self.ciudad_destino.nombre if self.ciudad_destino else self.pais_destino.nombre
         return f"{self.region.get_nombre_display()} - {ciudad}"
+
+    @property
+    def esta_vencido(self):
+        """Indica si el paquete superó su fecha de 'precio aplica hasta'"""
+        if not self.precio_aplica_hasta:
+            return False
+        return self.precio_aplica_hasta < timezone.localdate()
+
+    @classmethod
+    def sincronizar_vigencia(cls):
+        """
+        Sincroniza el estado 'activo' de los paquetes según su fecha
+        'precio_aplica_hasta' (de forma dinámica y bidireccional):
+
+        - Desactiva los paquetes cuya fecha ya pasó (vencidos).
+        - Reactiva los paquetes cuya fecha vuelve a ser hoy o en el futuro
+          (por ejemplo, si se editó la fecha 'hasta' a una posterior).
+
+        Solo afecta a paquetes que tienen una fecha 'precio_aplica_hasta'
+        definida; los que no la tienen conservan su estado manual.
+
+        Retorna una tupla (desactivados, reactivados).
+        """
+        hoy = timezone.localdate()
+
+        desactivados = cls.objects.filter(
+            activo=True,
+            precio_aplica_hasta__isnull=False,
+            precio_aplica_hasta__lt=hoy,
+        ).update(activo=False)
+
+        reactivados = cls.objects.filter(
+            activo=False,
+            precio_aplica_hasta__isnull=False,
+            precio_aplica_hasta__gte=hoy,
+        ).update(activo=True)
+
+        return desactivados, reactivados
 
 
 # =====================================================
