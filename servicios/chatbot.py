@@ -452,6 +452,45 @@ def tool_get_aerolineas():
 
 
 # =====================================================
+# BUILDER DE ACCIONES — Redirect al frontend
+# =====================================================
+
+def _build_accion(tool_name, tool_args):
+    """
+    Construye el objeto accion para redirigir al frontend.
+    Retorna None si la tool no requiere redirect.
+    """
+    if tool_name == "buscar_vuelos_live":
+        tiene_regreso = bool(tool_args.get("fecha_regreso"))
+        params = {
+            "origin": tool_args.get("origen", ""),
+            "destination": tool_args.get("destino", ""),
+            "date": tool_args.get("fecha_salida", ""),
+            "adults": tool_args.get("adultos", 1),
+            "tipoViaje": "idaVuelta" if tiene_regreso else "soloIda",
+        }
+        if tiene_regreso:
+            params["return_date"] = tool_args["fecha_regreso"]
+        return {
+            "tipo": "redirect_vuelos",
+            "label": "Ver vuelos disponibles",
+            "path": "/vuelos/resultados",
+            "params": params,
+        }
+
+    if tool_name == "get_detalle_paquete":
+        paquete_id = tool_args.get("paquete_id", "")
+        return {
+            "tipo": "redirect_paquete",
+            "label": "Ver detalles y reservar",
+            "path": f"/paquetes/{paquete_id}",
+            "params": {},
+        }
+
+    return None
+
+
+# =====================================================
 # DISPATCHER — Ejecuta la tool que pidió el modelo
 # =====================================================
 
