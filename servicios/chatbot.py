@@ -132,7 +132,7 @@ TOOLS = [
                 "type": "object",
                 "properties": {
                     "paquete_id": {
-                        "type": "integer",
+                        "type": ["integer", "string"],
                         "description": "ID numérico del paquete turístico"
                     }
                 },
@@ -290,18 +290,7 @@ def tool_get_paquetes(region=None, pais=None, solo_destacados=False):
     return resultado
 
 
-def tool_get_detalle_paquete(paquete_id):
-    """Retorna detalle completo de un paquete."""
-    from .models import PaqueteTuristico
-
-    try:
-        p = PaqueteTuristico.objects.select_related(
-            'region', 'pais_destino', 'ciudad_destino', 'aerolinea',
-            'tipo_paquete', 'temporada', 'tipo_viaje'
-        ).get(id=paquete_id, activo=True)
-    except PaqueteTuristico.DoesNotExist:
-        return {"error": f"No se encontró el paquete con ID {paquete_id}"}
-
+def _formatear_detalle_paquete(p):
     return {
         "id": p.id,
         "titulo": p.titulo,
@@ -328,12 +317,32 @@ def tool_get_detalle_paquete(paquete_id):
         "incluye_seguro": p.incluye_seguro,
         "idioma": p.idioma,
         "moneda_local": p.moneda_local,
-        "clima": p.clima,
         "lugares_destacados": p.lugares_destacados,
         "documentos_requeridos": p.documentos_requeridos,
         "politica_cancelacion": p.politica_cancelacion,
-        "notas_adicionales": p.notas_adicionales,
     }
+
+def tool_get_detalle_paquete(paquete_id):
+    """Retorna detalle completo de un paquete. Acepta ID numérico o nombre."""
+    from .models import PaqueteTuristico
+
+    try:
+        paquete_id = int(paquete_id)
+    except (ValueError, TypeError):
+        qs = PaqueteTuristico.objects.filter(activo=True, titulo__icontains=str(paquete_id))
+        if qs.exists():
+            return _formatear_detalle_paquete(qs.first())
+        return {"error": f"No se encontró un paquete con nombre o ID '{paquete_id}'"}
+
+    try:
+        p = PaqueteTuristico.objects.select_related(
+            'region', 'pais_destino', 'ciudad_destino', 'aerolinea',
+            'tipo_paquete', 'temporada', 'tipo_viaje'
+        ).get(id=paquete_id, activo=True)
+    except PaqueteTuristico.DoesNotExist:
+        return {"error": f"No se encontró el paquete con ID {paquete_id}"}
+
+    return _formatear_detalle_paquete(p)
 
 
 def tool_get_destinos(region=None, pais=None):
@@ -479,7 +488,10 @@ def _build_accion(tool_name, tool_args):
         }
 
     if tool_name == "get_detalle_paquete":
-        paquete_id = int(tool_args.get("paquete_id", 0))
+        try:
+            paquete_id = int(tool_args.get("paquete_id", 0))
+        except (ValueError, TypeError):
+            return None
         if not paquete_id:
             return None
         return {
