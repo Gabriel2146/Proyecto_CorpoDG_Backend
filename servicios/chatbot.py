@@ -479,7 +479,9 @@ def _build_accion(tool_name, tool_args):
         }
 
     if tool_name == "get_detalle_paquete":
-        paquete_id = tool_args.get("paquete_id", "")
+        paquete_id = int(tool_args.get("paquete_id", 0))
+        if not paquete_id:
+            return None
         return {
             "tipo": "redirect_paquete",
             "label": "Ver detalles y reservar",
