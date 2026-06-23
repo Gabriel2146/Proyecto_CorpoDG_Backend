@@ -498,8 +498,8 @@ def _build_accion(tool_name, tool_args):
 
 def ejecutar_tool(tool_name, tool_args):
     """
-    Recibe el nombre de la tool y sus argumentos (dict),
-    ejecuta la función Python correspondiente y retorna el resultado como string JSON.
+    Ejecuta la tool y retorna (resultado_json, accion).
+    accion es None para tools que no generan redirect.
     """
     try:
         if tool_name == "get_regiones":
@@ -521,7 +521,8 @@ def ejecutar_tool(tool_name, tool_args):
     except Exception as e:
         resultado = {"error": f"Error ejecutando '{tool_name}': {str(e)}"}
 
-    return json.dumps(resultado, ensure_ascii=False, default=str)
+    accion = _build_accion(tool_name, tool_args)
+    return json.dumps(resultado, ensure_ascii=False, default=str), accion
 
 
 # =====================================================
@@ -560,7 +561,8 @@ def procesar_mensaje(mensaje_usuario, historial=None):
         ]
         return {
             "respuesta": respuesta_vacia,
-            "historial": historial_actualizado
+            "historial": historial_actualizado,
+            "accion": None,
         }
 
     client = get_groq_client()
@@ -586,6 +588,8 @@ def procesar_mensaje(mensaje_usuario, historial=None):
     )
 
     assistant_message = response.choices[0].message
+
+    accion_final = None  # Se acumula si alguna tool genera redirect
 
     # ¿El modelo quiere llamar una tool?
     if assistant_message.tool_calls:
@@ -614,7 +618,9 @@ def procesar_mensaje(mensaje_usuario, historial=None):
             except json.JSONDecodeError:
                 tool_args = {}
 
-            tool_result = ejecutar_tool(tool_name, tool_args)
+            tool_result, accion = ejecutar_tool(tool_name, tool_args)
+            if accion is not None:
+                accion_final = accion
 
             messages.append({
                 "role": "tool",
@@ -643,5 +649,6 @@ def procesar_mensaje(mensaje_usuario, historial=None):
 
     return {
         "respuesta": respuesta_final,
-        "historial": historial_actualizado
+        "historial": historial_actualizado,
+        "accion": accion_final,
     }

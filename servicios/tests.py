@@ -55,3 +55,44 @@ class BuildAccionTest(TestCase):
     def test_detalle_paquete_sin_id_retorna_none(self):
         self.assertIsNone(_build_accion("get_detalle_paquete", {}))
         self.assertIsNone(_build_accion("get_detalle_paquete", {"paquete_id": 0}))
+
+
+from unittest.mock import patch, MagicMock
+from .chatbot import ejecutar_tool, procesar_mensaje
+
+
+class EjecutarToolTest(TestCase):
+
+    def test_retorna_tupla_resultado_y_accion(self):
+        resultado_json, accion = ejecutar_tool("get_aerolineas", {})
+        self.assertIsInstance(resultado_json, str)
+        self.assertIsNone(accion)
+
+    def test_buscar_vuelos_live_retorna_accion(self):
+        args = {"origen": "UIO", "destino": "MIA", "fecha_salida": "2025-08-15", "adultos": 1}
+        with patch("servicios.chatbot.tool_buscar_vuelos_live", return_value=[]):
+            resultado_json, accion = ejecutar_tool("buscar_vuelos_live", args)
+        self.assertIsNotNone(accion)
+        self.assertEqual(accion["tipo"], "redirect_vuelos")
+
+    def test_get_detalle_paquete_retorna_accion(self):
+        with patch("servicios.chatbot.tool_get_detalle_paquete", return_value={"id": 5}):
+            resultado_json, accion = ejecutar_tool("get_detalle_paquete", {"paquete_id": 5})
+        self.assertIsNotNone(accion)
+        self.assertEqual(accion["tipo"], "redirect_paquete")
+
+
+class ProcesarMensajeRetornaAccionTest(TestCase):
+
+    @patch("servicios.chatbot.get_groq_client")
+    def test_respuesta_sin_tools_tiene_accion_none(self, mock_client):
+        mock_choice = MagicMock()
+        mock_choice.message.tool_calls = None
+        mock_choice.message.content = "Hola, soy Cory."
+        mock_client.return_value.chat.completions.create.return_value.choices = [mock_choice]
+
+        resultado = procesar_mensaje("Hola")
+        self.assertIn("respuesta", resultado)
+        self.assertIn("historial", resultado)
+        self.assertIn("accion", resultado)
+        self.assertIsNone(resultado["accion"])
