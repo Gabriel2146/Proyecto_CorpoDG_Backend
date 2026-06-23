@@ -51,3 +51,7 @@ class BuildAccionTest(TestCase):
             "adultos": 1,
         })
         self.assertEqual(accion["params"].get("tipoViaje"), "soloIda")
+
+    def test_detalle_paquete_sin_id_retorna_none(self):
+        self.assertIsNone(_build_accion("get_detalle_paquete", {}))
+        self.assertIsNone(_build_accion("get_detalle_paquete", {"paquete_id": 0}))
