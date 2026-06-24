@@ -95,13 +95,19 @@ WSGI_APPLICATION = 'corpodg.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config('DB_ENGINE'),
+    }
+}
+
+if config('DB_ENGINE') == 'django.db.backends.sqlite3':
+    DATABASES['default']['NAME'] = BASE_DIR / config('DB_NAME', default='db.sqlite3')
+else:
+    DATABASES['default'].update({
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
         'PORT': config('DB_PORT')
-    }
-}
+    })
 
 
 # Password validation
