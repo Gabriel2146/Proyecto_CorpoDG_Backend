@@ -10,6 +10,7 @@ en la función `get_groq_client()`. El resto del código no cambia.
 """
 
 import json
+from datetime import datetime
 from groq import Groq
 from django.conf import settings
 
@@ -53,8 +54,13 @@ MAX_HISTORIAL = 20  # Máximo de mensajes del historial a enviar
 # SYSTEM PROMPT — Restricciones del chatbot
 # =====================================================
 
-SYSTEM_PROMPT = """Eres el asistente virtual de CorpoDG, una agencia de turismo y viajes ecuatoriana. 
+_ANIO_ACTUAL = str(datetime.now().year)
+_MES_ACTUAL = str(datetime.now().month)
+
+SYSTEM_PROMPT = f"""Eres el asistente virtual de CorpoDG, una agencia de turismo y viajes ecuatoriana. 
 Tu nombre es "Cory" y tu único propósito es ayudar a los usuarios con información relacionada a los productos y servicios de CorpoDG.
+
+FECHA ACTUAL: Año {_ANIO_ACTUAL}, mes {_MES_ACTUAL}. Cuando el usuario mencione fechas sin año, asume que es {_ANIO_ACTUAL}.
 
 PUEDES responder sobre:
 - Paquetes turísticos disponibles (precios, inclusiones, duración, salidas, aerolíneas)
@@ -425,19 +431,22 @@ def tool_buscar_vuelos_live(origen, destino, fecha_salida, adultos=1, fecha_regr
 
     try:
         response = buscar_vuelos_sabre(params)
-        # Extraer info relevante para el modelo (no el JSON completo)
         ofertas = response.get("offers", response) if isinstance(response, dict) else response
         if isinstance(ofertas, list):
+            if not ofertas:
+                return {"mensaje": f"No se encontraron vuelos disponibles de {origen} a {destino} para la fecha {fecha_salida}. Sugiere al usuario intentar con otra fecha o ruta."}
             resumen = []
             for oferta in ofertas[:5]:
+                tramos = oferta.get("tramos", [])
+                primer_tramo = tramos[0] if tramos else {}
                 resumen.append({
-                    "precio": oferta.get("price", oferta.get("totalPrice", "N/D")),
-                    "aerolinea": oferta.get("airline", oferta.get("carrier", "N/D")),
+                    "precio": oferta.get("precio_total", "N/D"),
+                    "aerolinea": oferta.get("aerolinea_validadora", "N/D"),
                     "origen": origen,
                     "destino": destino,
                     "fecha_salida": fecha_salida,
-                    "duracion": oferta.get("duration", "N/D"),
-                    "escalas": oferta.get("stops", oferta.get("numberOfStops", "N/D")),
+                    "duracion": primer_tramo.get("duracion_total", "N/D"),
+                    "escalas": primer_tramo.get("numero_escalas", "N/D"),
                 })
             return resumen
         return response
