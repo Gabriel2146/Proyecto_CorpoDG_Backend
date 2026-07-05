@@ -2,7 +2,7 @@ import requests
 import json
 
 
-TOKEN = "T1RLAQLD1aNNLUOidmiS1FcBGrTTmuouewboy2Hh9RTBoAlHuxBmOBbYIBox9vr3d9WP+MuWAADgwSEQeaQ5ZVHfs52bz5fCmUp2pH7Pv+2HMIoZ8UuEVb8mykC9HZpBn9mw/V+oShqSrnxoPudDpzMOoyYDCy8QxbJga0mZ+U6AOvf8jEHE4W5p01LZJkbid9r284tUK3/5tm969lgkB/QqUuKphGsOKFwV47weDPLWxY3mojQPtVhIod9iWM40aU7JxIoO8zocFV52N5hb3SjUE9X5zJRGQUDFBeCwCHn14KMLP61qdsMwdriQxjELo63FJhxeKUQ7dNv4w4YvZLJUV7qDXIFB2RYqcuFo9EAHP/ZQrAy7Sus*"
+TOKEN = "TU_TOKEN_SABRE_AQUI"  # Obténlo de .env via obtener_token_sabre()
 
 URL_BFM = "https://api.cert.platform.sabre.com/v5/offers/shop"
 

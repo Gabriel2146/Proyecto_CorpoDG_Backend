@@ -47,7 +47,7 @@ class ServiciosConfig(AppConfig):
         tipos_viajes = ['Viajes de familia', 'Viajes en pareja', 'Viajes con amigos', 'Viaje solo', 'Viaje de negocios', 'Viaje de aventura']
         for tv in tipos_viajes:
             TipoViaje.objects.get_or_create(nombre=tv)
-        print('✓ Tipos de paquete, temporadas y tipos de viaje inicializados.')
+        print('[OK] Tipos de paquete, temporadas y tipos de viaje inicializados.')
 
     def _crear_datos_iniciales(self):
         """Crea regiones, países, ciudades, aerolíneas y aeropuertos desde los archivos JSON"""
@@ -110,7 +110,7 @@ class ServiciosConfig(AppConfig):
             )
             regiones_creadas[nombre] = region
         
-        print(f"✓ Regiones creadas: {Region.objects.count()}")
+        print(f"[OK] Regiones creadas: {Region.objects.count()}")
         
         # =====================================================
         # PASO 2: Cargar países desde nuevo_paises.json
@@ -155,7 +155,7 @@ class ServiciosConfig(AppConfig):
                 if created:
                     paises_count += 1
         
-        print(f"✓ Países creados: {paises_count}")
+        print(f"[OK] Países creados: {paises_count}")
         
         # =====================================================
         # PASO 3: Cargar ciudades desde ciudades.json
@@ -210,11 +210,11 @@ class ServiciosConfig(AppConfig):
                 if es_capital:
                     capitales_marcadas += 1
         
-        print(f"✓ Ciudades creadas: {ciudades_count}")
+        print(f"[OK] Ciudades creadas: {ciudades_count}")
         if capitales_marcadas > 0:
-            print(f"  └─ Capitales identificadas: {capitales_marcadas}")
+            print(f"    - Capitales identificadas: {capitales_marcadas}")
         if ciudades_sin_pais > 0:
-            print(f"  └─ Ciudades sin país relacionado (omitidas): {ciudades_sin_pais}")
+            print(f"    - Ciudades sin país relacionado (omitidas): {ciudades_sin_pais}")
         
         # =====================================================
         # PASO 4: Cargar aerolíneas desde aerolineas_full_data.json
@@ -228,12 +228,12 @@ class ServiciosConfig(AppConfig):
         
         print("=" * 60)
         print("Resumen final:")
-        print(f"  • Regiones: {Region.objects.count()}")
-        print(f"  • Países: {PaisRegion.objects.count()}")
-        print(f"  • Ciudades: {Ciudad.objects.count()}")
+        print(f"  - Regiones: {Region.objects.count()}")
+        print(f"  - Países: {PaisRegion.objects.count()}")
+        print(f"  - Ciudades: {Ciudad.objects.count()}")
         from servicios.models import Aerolinea, Aeropuerto
-        print(f"  • Aerolíneas: {Aerolinea.objects.count()}")
-        print(f"  • Aeropuertos: {Aeropuerto.objects.count()}")
+        print(f"  - Aerolíneas: {Aerolinea.objects.count()}")
+        print(f"  - Aeropuertos: {Aeropuerto.objects.count()}")
         print("=" * 60 + "\n")
 
     def _cargar_aerolineas(self, base_dir):
@@ -302,9 +302,9 @@ class ServiciosConfig(AppConfig):
             else:
                 actualizadas += 1
         
-        print(f"✓ Aerolíneas cargadas: {creadas} nuevas, {actualizadas} actualizadas")
+        print(f"[OK] Aerolíneas cargadas: {creadas} nuevas, {actualizadas} actualizadas")
         if sin_iata > 0:
-            print(f"  └─ Aerolíneas sin código IATA: {sin_iata}")
+            print(f"    - Aerolíneas sin código IATA: {sin_iata}")
 
     def _cargar_aeropuertos(self, base_dir):
         """Carga aeropuertos desde aeropuertos_full_data copy.json"""
@@ -382,10 +382,10 @@ class ServiciosConfig(AppConfig):
             else:
                 actualizados += 1
         
-        print(f"✓ Aeropuertos cargados: {creados} nuevos, {actualizados} actualizados")
-        print(f"  └─ Con ciudad vinculada: {con_ciudad}")
+        print(f"[OK] Aeropuertos cargados: {creados} nuevos, {actualizados} actualizados")
+        print(f"    - Con ciudad vinculada: {con_ciudad}")
         if sin_pais > 0:
-            print(f"  └─ Aeropuertos sin país (omitidos): {sin_pais}")
+            print(f"    - Aeropuertos sin país (omitidos): {sin_pais}")
 
         # --- CARGAR DATOS PARA TIPO PAQUETE, TEMPORADA, TIPO VIAJE ---
         from .models import TipoPaquete, Temporada, TipoViaje
@@ -401,4 +401,4 @@ class ServiciosConfig(AppConfig):
         tipos_viajes = ['Viajes de familia', 'Viajes en pareja', 'Viajes con amigos', 'Viaje solo', 'Viaje de negocios', 'Viaje de aventura']
         for tv in tipos_viajes:
             TipoViaje.objects.get_or_create(nombre=tv)
-        print('✓ Tipos de paquete, temporadas y tipos de viaje inicializados.')
+        print('[OK] Tipos de paquete, temporadas y tipos de viaje inicializados.')
