@@ -2,7 +2,7 @@ import requests
 import json
 
 # 1. TU TOKEN (El que ya tienes, empieza con T1RLAQ...)
-TOKEN = "T1RLAQLg6sUPmZpmmVPsUhsRyLRg7PNe7TxKDJ7dsbUAGf9IGxD0Eln/n5+mcx0TjG1uE5nlAADgAO57Sl3w+0U/OROiZcPGL8BfMH5AXDujjFGAbFp98mJNoypVtx2IkQX4d4wU3VE7FjzDaWPRuFNN82HdNhUu2ZNJ7EYT5/hqHC/yFPclNNpr6KjvuCMp8lZN6WM9EqggH9trKvzOex1KfO81ulUWgxeiwfE8kPSDJ3mFfPyF3tD8RNleGwIVWfAfAXBrhWZpCA5Wug6pFOiW241YLvAZLJlmg829J9HRCoPI71Hj8PX7UqUvi1cCnxE/N+xW7m5tyt+q3h35j3XqtnZy1O4fFK9Zsu0tLxOklPjH1FqDVbE*"
+TOKEN = "TU_TOKEN_SABRE_AQUI"  # Obténlo de .env via obtener_token_sabre()
 
 # 2. Configuración
 # Base URL + El endpoint específico que sale en tu documentación

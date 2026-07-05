@@ -4,7 +4,7 @@ import time
 
 # --- CONFIGURACIÓN ---
 # ¡OJO! Pon aquí tu API Key de API-Ninjas
-API_KEY = 'l8uIVJyPNytpFZqd3cBtmw==s50KtvQO4n6aeIfr' 
+API_KEY = 'TU_API_KEY_NINJAS_AQUI' 
 
 # URL del JSON base (el que tú me pasaste)
 URL_FUENTE = "https://raw.githubusercontent.com/BesrourMS/Airlines/refs/heads/master/airlines.json"

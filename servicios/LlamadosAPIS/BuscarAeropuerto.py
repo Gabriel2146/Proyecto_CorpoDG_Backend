@@ -2,7 +2,7 @@ import requests
 import json
 
 # TU TOKEN
-TOKEN = "T1RLAQI4XtePmD8FbNxKCuUhpM/cPm25Cbouwr9+Gsxocm3MVxBvEDbkuHocad3fWzCcGVM+AADgFtZv8IiaYiA22rGflTio3JfPqslfYJihZplcFAzKlp0YeSuS0qC2DnpqW/38JO249HTSz2SWTk+ndUgoyPM4gBI6O+JRYRxElYar/S1zbdhlrySp8B21NVXmon13QIQLfUxSdOIWk1hzCTfiE+t50o/R00N0kURGeMLL57A4uLeOjC8ADH5yvt9utJ7/MSwHdt1Hsem5Q7ViSu6ZrPJU2Vquo7yw8FDDcH2aXFzp4sDxme/TDYGEIiGvE2uKToQOu57iJoQN2Nt/Mr0x8rTUJQEFh34/9SPSoCx3kZEdN5g*" 
+TOKEN = "TU_TOKEN_SABRE_AQUI"  # Obténlo de .env via obtener_token_sabre() 
 
 # URLS
 URL_MAC = "https://api.cert.platform.sabre.com/v1/lists/supported/cities"
