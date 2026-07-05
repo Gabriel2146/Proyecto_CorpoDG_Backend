@@ -19,8 +19,16 @@ class ServiciosConfig(AppConfig):
         if os.environ.get('RUN_MAIN') != 'true':
             return
         
-        # Mostrar modo de Seat Map en consola
         from django.conf import settings
+
+        # Validar GROQ_API_KEY al arrancar para evitar fallo silencioso en runtime
+        groq_key = getattr(settings, 'GROQ_API_KEY', '') or ''
+        if not groq_key:
+            raise RuntimeError(
+                "GROQ_API_KEY no está configurada. "
+                "Agrega GROQ_API_KEY=tu_key en el archivo .env"
+            )
+
         modo = "SANDBOX (simulado)" if getattr(settings, 'SEATMAP_SANDBOX', True) else "SABRE REAL"
         print(f"\n[SEATMAP] modo = {modo}  (cambiar con SEATMAP_SANDBOX en .env)\n")
         modo_b = "SANDBOX (simulado)" if getattr(settings, 'BOOKING_SANDBOX', True) else "SABRE REAL"
