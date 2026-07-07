@@ -78,4 +78,12 @@ jobs:
         run: python manage.py migrate --run-syncdb
 
       - name: Run tests
-        run: python manage.py test servicios -v 2
+        run: python manage.py test servicios -v 2 2>&1 | tee test-output.txt
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-report
+          path: test-output.txt
+          retention-days: 30
