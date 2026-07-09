@@ -1,6 +1,29 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
 
+{% block extrahead %}
+<style>
+  :root {
+    --primary: #1a365d;
+    --secondary: #2b6cb0;
+    --accent: #ed8936;
+    --primary-fg: #fff;
+    --header-color: #fff;
+    --breadcrumbs-bg: #2b6cb0;
+    --link-fg: #2b6cb0;
+    --link-selected-fg: #ed8936;
+    --button-bg: #2b6cb0;
+    --button-hover-bg: #1a365d;
+    --default-button-bg: #2b6cb0;
+    --default-button-hover-bg: #1a365d;
+    --close-button-bg: #718096;
+    --close-button-hover-bg: #4a5568;
+    --delete-button-bg: #e53e3e;
+    --delete-button-hover-bg: #c53030;
+  }
+</style>
+{% endblock %}
+
 {% block branding %}
 <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0;">
   <img src="{% static 'logo.png' %}" alt="CorpoDG" height="40" style="display: block;">
