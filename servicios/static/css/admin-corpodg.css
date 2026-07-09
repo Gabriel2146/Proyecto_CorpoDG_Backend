@@ -1,0 +1,239 @@
+/* CorpoDG — branding sobre el tema oscuro de django-jazzmin (AdminLTE "darkly") */
+
+:root {
+  --corpodg-gold: #b5931a;
+  --corpodg-gold-light: #d4af37;
+  --corpodg-gold-dark: #8a6f14;
+  --corpodg-charcoal: #23221e;
+  --corpodg-charcoal-darker: #1a1916;
+  --corpodg-ink: #1e1d1a;
+}
+
+body,
+.content-wrapper {
+  background: var(--corpodg-charcoal-darker) !important;
+}
+
+/* Django admin nativo (#changelist, formularios, paginador) usa sus propias
+   variables CSS con fondo claro por defecto; jazzmin no las reescribe. */
+:root {
+  --primary: var(--corpodg-gold);
+  --body-fg: #e8e5db;
+  --body-bg: var(--corpodg-charcoal-darker);
+  --body-quiet-color: #a8a598;
+  --body-loud-color: #ffffff;
+  --header-color: #ffffff;
+  --breadcrumbs-bg: transparent;
+  --breadcrumbs-fg: var(--corpodg-gold-light);
+  --breadcrumbs-link-fg: var(--corpodg-gold-light);
+  --link-fg: var(--corpodg-gold-light);
+  --link-hover-color: var(--corpodg-gold);
+  --link-selected-fg: var(--corpodg-gold);
+  --hairline-color: #3a3830;
+  --border-color: #3a3830;
+  --field-border-color: #3a3830;
+  --module-bg: var(--corpodg-charcoal);
+  --module-text: #e8e5db;
+  --module-bg-alt: #2c2a24;
+  --darkened-bg: var(--corpodg-charcoal-darker);
+  --selected-bg: rgba(181, 147, 26, 0.15);
+  --selected-row: rgba(181, 147, 26, 0.1);
+  --button-bg: var(--corpodg-gold);
+  --button-fg: var(--corpodg-ink);
+  --button-hover-bg: var(--corpodg-gold-light);
+  --default-button-bg: var(--corpodg-gold);
+  --default-button-hover-bg: var(--corpodg-gold-light);
+  --object-tools-bg: var(--corpodg-gold);
+  --object-tools-hover-bg: var(--corpodg-gold-light);
+}
+
+#content,
+#content-main,
+#changelist,
+#changelist .results,
+#changelist-form,
+.change-list,
+.paginator {
+  background: var(--corpodg-charcoal-darker) !important;
+  color: #e8e5db !important;
+}
+
+#changelist table,
+#changelist table tbody tr,
+.results table {
+  background: var(--corpodg-charcoal) !important;
+  color: #e8e5db !important;
+}
+
+#changelist table tbody tr:nth-child(even) {
+  background: var(--corpodg-charcoal-darker) !important;
+}
+
+#changelist table thead th {
+  background: var(--corpodg-ink) !important;
+  color: var(--corpodg-gold-light) !important;
+}
+
+#changelist table a {
+  color: var(--corpodg-gold-light) !important;
+}
+
+#changelist-search,
+#changelist-filter,
+.actions,
+select,
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea {
+  background-color: var(--corpodg-charcoal) !important;
+  color: #e8e5db !important;
+  border-color: #3a3830 !important;
+}
+
+.content-header,
+.content-header h1,
+.breadcrumb {
+  background: transparent !important;
+}
+
+.content-header h1 {
+  color: #ffffff !important;
+}
+
+/* Logo: el PNG original es texto negro sobre fondo transparente, se invierte a blanco */
+.brand-image-corpodg {
+  filter: brightness(0) invert(1);
+}
+
+/* Barra superior */
+.main-header.navbar {
+  background: var(--corpodg-ink) !important;
+  border-bottom: 1px solid var(--corpodg-gold-dark);
+}
+
+.main-header .nav-link {
+  color: #f5f3ee !important;
+}
+
+.main-header .nav-link:hover {
+  color: var(--corpodg-gold-light) !important;
+}
+
+/* Sidebar */
+.main-sidebar,
+.sidebar-dark-primary {
+  background: var(--corpodg-ink) !important;
+}
+
+.brand-link {
+  background: var(--corpodg-charcoal) !important;
+  border-bottom: 1px solid var(--corpodg-gold-dark) !important;
+}
+
+.brand-text {
+  color: var(--corpodg-gold-light) !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.nav-sidebar > .nav-item > .nav-link {
+  color: #d8d4c9;
+}
+
+.nav-sidebar > .nav-item > .nav-link:hover,
+.nav-sidebar > .nav-item > .nav-link.active {
+  background: var(--corpodg-gold) !important;
+  color: var(--corpodg-ink) !important;
+}
+
+.nav-sidebar > .nav-item > .nav-link.active .nav-icon,
+.nav-sidebar > .nav-item > .nav-link:hover .nav-icon {
+  color: var(--corpodg-ink) !important;
+}
+
+.nav-sidebar .nav-treeview > .nav-item > .nav-link:hover,
+.nav-sidebar .nav-treeview > .nav-item > .nav-link.active {
+  color: var(--corpodg-gold-light) !important;
+  background: rgba(181, 147, 26, 0.12) !important;
+}
+
+.os-theme-light > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: var(--corpodg-gold-dark) !important;
+}
+
+/* Enlaces y acentos */
+a,
+.small-box a,
+.breadcrumb-item a {
+  color: var(--corpodg-gold-light);
+}
+
+a:hover {
+  color: var(--corpodg-gold);
+}
+
+.card-header,
+.card-primary.card-outline {
+  border-top-color: var(--corpodg-gold) !important;
+}
+
+/* Botones */
+.btn-primary,
+.btn-outline-primary {
+  color: var(--corpodg-ink) !important;
+  background-color: var(--corpodg-gold) !important;
+  border-color: var(--corpodg-gold) !important;
+}
+
+.btn-primary:hover,
+.btn-outline-primary:hover {
+  background-color: var(--corpodg-gold-light) !important;
+  border-color: var(--corpodg-gold-light) !important;
+}
+
+.btn-primary:focus,
+.btn-outline-primary:focus,
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(181, 147, 26, 0.35) !important;
+  border-color: var(--corpodg-gold) !important;
+}
+
+/* Tablas y listados */
+.card,
+.table {
+  background-color: var(--corpodg-charcoal);
+}
+
+.table thead th {
+  border-bottom: 2px solid var(--corpodg-gold-dark);
+}
+
+.table-hover tbody tr:hover {
+  background: rgba(181, 147, 26, 0.08);
+}
+
+/* Login */
+.login-page,
+.login-box .card {
+  background: var(--corpodg-charcoal-darker) !important;
+}
+
+.login-logo img {
+  filter: brightness(0) invert(1);
+  max-width: 220px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.login-box .card-body {
+  background: var(--corpodg-charcoal) !important;
+}
+
+.login-box .btn-primary {
+  background-color: var(--corpodg-gold) !important;
+  border-color: var(--corpodg-gold) !important;
+  color: var(--corpodg-ink) !important;
+}
