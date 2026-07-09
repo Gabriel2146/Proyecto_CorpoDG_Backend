@@ -32,6 +32,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -198,3 +199,64 @@ AUTH_TOKEN = config('AUTH_TOKEN', default='')
 
 # CHATBOT AI CONFIGURATION (Groq)
 GROQ_API_KEY = config('GROQ_API_KEY', default='')
+
+
+# Admin dashboard (django-jazzmin) — branding CorpoDG
+JAZZMIN_SETTINGS = {
+    "site_title": "CorpoDG Admin",
+    "site_header": "CorpoDG",
+    "site_brand": "CorpoDG Trip593",
+    "site_logo": "logo.png",
+    "site_logo_classes": "brand-image-corpodg",
+    "site_icon": "logo.png",
+    "login_logo": "logo.png",
+    "login_logo_dark": None,
+    "welcome_sign": "Bienvenido al panel de administración de CorpoDG",
+    "copyright": "Corporación Dávila & Granda",
+    "show_ui_builder": False,
+    "navigation_expanded": True,
+    "language_chooser": False,
+    "custom_css": "css/admin-corpodg.css",
+    "topmenu_links": [
+        {"name": "Ver el sitio", "url": "/", "new_window": True},
+    ],
+    "icons": {
+        "auth.Group": "fas fa-users-cog",
+        "auth.User": "fas fa-user",
+        "authtoken.TokenProxy": "fas fa-key",
+        "servicios.Cliente": "fas fa-user-tie",
+        "servicios.Solicitud": "fas fa-inbox",
+        "servicios.Destino": "fas fa-map-marker-alt",
+        "servicios.Vuelo": "fas fa-plane",
+        "servicios.Region": "fas fa-globe-americas",
+        "servicios.PaisRegion": "fas fa-flag",
+        "servicios.Ciudad": "fas fa-city",
+        "servicios.Aerolinea": "fas fa-plane-departure",
+        "servicios.Aeropuerto": "fas fa-plane-arrival",
+        "servicios.PaqueteTuristico": "fas fa-suitcase-rolling",
+        "servicios.ConfiguracionDestacados": "fas fa-star",
+        "servicios.TipoPaquete": "fas fa-tags",
+        "servicios.Temporada": "fas fa-calendar-alt",
+        "servicios.TipoViaje": "fas fa-route",
+    },
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+    "navbar": "navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": True,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_flat_style": True,
+    "sidebar_nav_child_indent": True,
+    "actions_sticky_top": True,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-outline-info",
+        "warning": "btn-outline-warning",
+        "danger": "btn-outline-danger",
+        "success": "btn-outline-success",
+    },
+}
