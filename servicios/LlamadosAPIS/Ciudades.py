@@ -1,7 +1,8 @@
+import os
 import requests
 import json
 
-API_KEY = "TU_API_KEY_AIRLABS_AQUI"
+API_KEY = os.getenv("AIRLABS_API_KEY", "")
 
 def guardar_ciudades():
     print("Obteniendo todas las ciudades...")

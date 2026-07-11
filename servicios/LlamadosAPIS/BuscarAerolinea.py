@@ -1,7 +1,13 @@
+import os
 import requests
+from .Llamado_Api_TOKEN import obtener_token_sabre, SabreAuthError
 
-# 1. TU TOKEN (El que ya tienes, empieza con T1RLAQ...)
-TOKEN = "TU_TOKEN_SABRE_AQUI"  # Obténlo de .env via obtener_token_sabre()
+
+def _get_token():
+    try:
+        return obtener_token_sabre()
+    except (SabreAuthError, ValueError):
+        return os.getenv("SABRE_TOKEN", "")
 
 # 2. Configuración
 # Base URL + El endpoint específico que sale en tu documentación
@@ -19,8 +25,7 @@ def obtener_nombre_aerolinea(codigo_iata):
     }
 
     headers = {
-        "Authorization": f"Bearer {TOKEN}"
-        # Nota: En peticiones GET no hace falta Content-Type: application/json usualmente
+        "Authorization": f"Bearer {_get_token()}"
     }
 
     print(f"🔎 Consultando quién es '{codigo_iata}'...")

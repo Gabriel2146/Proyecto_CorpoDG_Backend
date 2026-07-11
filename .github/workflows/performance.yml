@@ -2,7 +2,7 @@ name: Performance Tests
 
 on:
   push:
-    branches: [staging, main, develop, feat/gabriel/chatbot_v2]
+    branches: [staging, main, develop, feat/reservas, feat/gabriel/chatbot_v2]
   pull_request:
     branches: [main, develop]
   workflow_dispatch:

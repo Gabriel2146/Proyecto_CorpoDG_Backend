@@ -1,10 +1,10 @@
+import os
 import requests
 import json
 import time
 
 # --- CONFIGURACIÓN ---
-# ¡OJO! Pon aquí tu API Key de API-Ninjas
-API_KEY = 'TU_API_KEY_NINJAS_AQUI' 
+API_KEY = os.getenv('API_NINJAS_KEY', '') 
 
 # URL del JSON base (el que tú me pasaste)
 URL_FUENTE = "https://raw.githubusercontent.com/BesrourMS/Airlines/refs/heads/master/airlines.json"
