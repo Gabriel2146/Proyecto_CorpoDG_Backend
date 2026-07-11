@@ -1,12 +1,18 @@
+import os
 import requests
+from .Llamado_Api_TOKEN import obtener_token_sabre, SabreAuthError
 
 
-TOKEN = "TU_TOKEN_SABRE_AQUI"  # Obténlo de .env via obtener_token_sabre()
+def _get_token():
+    try:
+        return obtener_token_sabre()
+    except (SabreAuthError, ValueError):
+        return os.getenv("SABRE_TOKEN", "")
 
 URL_BFM = "https://api.cert.platform.sabre.com/v5/offers/shop"
 
 headers = {
-    "Authorization": f"Bearer {TOKEN}",
+    "Authorization": f"Bearer {_get_token()}",
     "Content-Type": "application/json"
 }
 

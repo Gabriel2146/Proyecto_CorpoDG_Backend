@@ -1,11 +1,11 @@
+import os
 import requests
 import pandas as pd
 import json
 import time
 
 # --- CONFIGURACIÓN ---
-# Coloca tu API Key aquí
-API_KEY = 'TU_API_KEY_AQUI' 
+API_KEY = os.getenv('API_NINJAS_KEY', '') 
 
 # URL del CSV de aeropuertos
 URL_CSV_FUENTE = "https://raw.githubusercontent.com/lxndrblz/Airports/main/airports.csv"

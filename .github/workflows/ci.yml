@@ -2,7 +2,7 @@ name: Backend CI
 
 on:
   push:
-    branches: [main, develop, feat/reservas, feat/gabriel/chatbot_v2]
+    branches: [main, develop, staging, feat/reservas, feat/gabriel/chatbot_v2]
   pull_request:
     branches: [main, develop]
 

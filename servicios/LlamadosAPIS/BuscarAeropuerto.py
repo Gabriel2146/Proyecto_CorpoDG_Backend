@@ -1,7 +1,13 @@
+import os
 import requests
+from .Llamado_Api_TOKEN import obtener_token_sabre, SabreAuthError
 
-# TU TOKEN
-TOKEN = "TU_TOKEN_SABRE_AQUI"  # Obténlo de .env via obtener_token_sabre() 
+
+def _get_token():
+    try:
+        return obtener_token_sabre()
+    except (SabreAuthError, ValueError):
+        return os.getenv("SABRE_TOKEN", "")
 
 # URLS
 URL_MAC = "https://api.cert.platform.sabre.com/v1/lists/supported/cities"
@@ -10,7 +16,7 @@ URL_AUTOCOMPLETE = "https://api.cert.platform.sabre.com/v1/geo/autocomplete"
 
 def obtener_info_lugar_robusto(codigo):
     codigo = codigo.upper()
-    headers = {"Authorization": f"Bearer {TOKEN}"}
+    headers = {"Authorization": f"Bearer {_get_token()}"}
     
     print(f"🔎 Analizando '{codigo}'...")
 
