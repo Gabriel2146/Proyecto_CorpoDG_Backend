@@ -45,7 +45,19 @@ class Command(BaseCommand):
 
     def _create_regions(self):
         regiones_data = load_json("nuevo_paises.json")
-        for nombre_key in regiones_data:
+        imagenes = {
+            "caribe": "https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=800",
+            "sudamerica": "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800",
+            "centroamerica": "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800",
+            "norteamerica": "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=800",
+            "europa": "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800",
+            "medio_oriente": "https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=800",
+            "africa": "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=800",
+            "asia": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800",
+            "oceania": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800",
+            "ecuador": "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=800",
+        }
+        for orden, nombre_key in enumerate(regiones_data, start=1):
             nombre_display = {
                 "caribe": "Caribe",
                 "sudamerica": "Sudamérica",
@@ -58,9 +70,13 @@ class Command(BaseCommand):
                 "oceania": "Oceanía",
                 "ecuador": "Ecuador",
             }.get(nombre_key, nombre_key)
-            Region.objects.get_or_create(
+            Region.objects.update_or_create(
                 nombre=nombre_key,
-                defaults={"descripcion": f"Región {nombre_display}", "orden": len(regiones_data)}
+                defaults={
+                    "descripcion": f"Región {nombre_display}",
+                    "orden": orden,
+                    "imagen_url": imagenes.get(nombre_key, ""),
+                }
             )
         self.stdout.write(f"Regiones creadas: {Region.objects.count()}")
 
@@ -382,7 +398,7 @@ class Command(BaseCommand):
                 "fecha_salidas_texto": "Enero a Diciembre 2026",
                 "desc_corta": "Arena blanca y mar turquesa te esperan en Cancún con todo incluido.",
                 "desc_extensa": "Cancún es el destino playero por excelencia del Caribe mexicano. Este paquete todo incluido de 6 días te permite disfrutar de las mejores playas de arena blanca y mar turquesa, explorar las ruinas mayas de Chichén Itzá (una de las 7 maravillas del mundo moderno), bucear en cenotes cristalinos y navegar a la paradisíaca Isla Mujeres. Incluye hotel 5 estrellas con régimen todo incluido y actividades diarias.",
-                "img": "https://images.unsplash.com/photo-1510097467424-192d713fd8b6?w=600",
+                "img": "https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=600",
                 "incluye": "Vuelo ida y vuelta Quito/Cancún\nHotel 5 noches todo incluido\nTour a Chichén Itzá con guía\nTour a Isla Mujeres\nBuceo en cenote\nTraslados aeropuerto-hotel-aeropuerto\nSeguro de viaje básico\nImpuestos hoteleros",
                 "no_incluye": "Propinas para guías\nGastos personales\nFotos y recuerdos\nBebidas premium en hotel\nLlamadas telefónicas\nLavandería",
                 "como_reservar": "Puedes reservar este paquete a través de nuestro formulario de contacto en la página web, o escribiéndonos directamente a nuestro WhatsApp. Un asesor especializado te atenderá y coordinará todos los detalles de tu viaje.",
@@ -409,7 +425,7 @@ class Command(BaseCommand):
                 "fecha_salidas_texto": "Marzo a Diciembre 2026",
                 "desc_corta": "Explora la selva amazónica ecuatoriana desde Tena.",
                 "desc_extensa": "Sumérgete en la selva amazónica ecuatoriana, uno de los lugares con mayor biodiversidad del planeta. Este paquete de 5 días te lleva a Tena, la puerta de entrada a la Amazonía. Incluye canotaje por ríos cristalinos, senderismo nocturno para observar fauna, visitas a comunidades indígenas donde aprenderás sobre sus tradiciones y medicina ancestral, y observación de aves exóticas. Una experiencia transformadora en contacto con la naturaleza más pura.",
-                "img": "https://images.unsplash.com/photo-1470071459604-4b118ecb46af?w=600",
+                "img": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600",
                 "incluye": "Vuelo Quito-Coca ida y vuelta\nAlojamiento 4 noches en lodge amazónico\nAlimentación completa durante la estadía\nGuía nativo bilingüe\nCanotaje por el río Napo\nSenderismo diurno y nocturno\nVisita a comunidad indígena\nObservación de aves y fauna\nEquipo de camping básico",
                 "no_incluye": "Bebidas alcohólicas\nPropinas para guías\nEquipo especial de fotografía\nRopa impermeable (se puede alquilar)\nGastos personales",
                 "como_reservar": "Reserva este paquete a través de nuestro formulario de contacto. Un asesor especializado en turismo de aventura te contactará para coordinar los detalles logísticos y de equipo necesario.",
