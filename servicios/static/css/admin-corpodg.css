@@ -281,39 +281,50 @@ a:hover {
    a fieldset, form-row, inline-group, etc. jazzmin no los oscurece.
 
    NOTA: jazzmin renderiza TabularInline como:
-     .inline-group > .tabular.inline-related > fieldset.module > table > tbody > tr.form-row > td
-   Cada capa puede tener fondo blanco propio; cubrimos toda la cadena. */
-#content-main form,
-#content-main fieldset.module,
-#content-main .form-row,
-#content-main .inline-group,
-#content-main .inline-related,
-#content-main .tabular.inline-related,
-#content-main .tabular.inline-related table,
-#content-main .tabular.inline-related table tbody,
-#content-main .tabular.inline-related table tbody tr,
-#content-main .tabular.inline-related table tbody td,
-#content-main .tabular.inline-related .module,
-#content-main .field-box,
-#content-main .field-content,
-.change-form,
-.form-row,
-.form-row:last-child,
-.form-row td,
-.field-box,
-.inline-group,
-.inline-group .tabular.inline-related,
-.inline-group .tabular.inline-related .module,
-.inline-group .tabular.inline-related table,
-.inline-group .tabular.inline-related table tbody tr,
-.inline-group .tabular.inline-related table tbody td,
-.inline-group .tabular.inline-related td,
-.inline-related,
-.inline-related fieldset.module,
-.tabular.inline-related,
-.tabular.inline-related table,
-.tabular.inline-related .module,
-.readonly {
+     .inline-group > .tabular.inline-related > fieldset.module > table.table > tbody > tr.form-row > td
+   Cada capa/table/td puede tener fondo blanco propio; cubrimos toda la cadena.
+   Usamos selectores muy específicos para vencer a jazzmin+AdminLTE. */
+html body #content form,
+html body #content fieldset.module,
+html body #content .form-row,
+html body #content .inline-group,
+html body #content .inline-related,
+html body #content .tabular.inline-related,
+html body #content .tabular.inline-related table,
+html body #content .tabular.inline-related table tbody,
+html body #content .tabular.inline-related table tbody tr,
+html body #content .tabular.inline-related table tbody td,
+html body #content .tabular.inline-related .module,
+html body #content .field-box,
+html body #content .field-content,
+html body .change-form,
+html body .form-row,
+html body .form-row:last-child,
+html body .form-row td,
+html body .field-box,
+html body .inline-group,
+html body .inline-group table,
+html body .inline-group table tbody,
+html body .inline-group table tbody tr,
+html body .inline-group table tbody td,
+html body .inline-group .tabular.inline-related,
+html body .inline-group .tabular.inline-related table,
+html body .inline-group .tabular.inline-related table tbody,
+html body .inline-group .tabular.inline-related table tbody tr,
+html body .inline-group .tabular.inline-related table tbody td,
+html body .inline-group .tabular.inline-related td,
+html body .inline-related,
+html body .inline-related fieldset.module,
+html body .tabular.inline-related,
+html body .tabular.inline-related table,
+html body .tabular.inline-related table.table,
+html body .tabular.inline-related .module,
+html body .readonly,
+html body .table,
+html body .table tbody,
+html body .table tbody tr,
+html body .table tbody td,
+html body .table-hover tbody tr {
   background: var(--corpodg-charcoal) !important;
   color: #e8e5db !important;
 }
@@ -332,17 +343,22 @@ a:hover {
   color: var(--corpodg-gold-light) !important;
 }
 
-#content-main .tabular.inline-related table thead th,
-.inline-group table thead th,
-.tabular.inline-related table thead th {
+html body .inline-group table thead th,
+html body .tabular.inline-related table thead th,
+html body .table thead th {
   background: var(--corpodg-ink) !important;
   color: var(--corpodg-gold-light) !important;
 }
 
-#content-main .tabular.inline-related table tbody tr:nth-child(even),
-.inline-group table tbody tr:nth-child(even),
-.tabular.inline-related table tbody tr:nth-child(even) {
+html body .inline-group table tbody tr:nth-child(even),
+html body .tabular.inline-related table tbody tr:nth-child(even),
+html body .table tbody tr:nth-child(even) {
   background: var(--corpodg-charcoal-darker) !important;
+}
+
+/* Hover en tablas inline */
+html body .table-hover tbody tr:hover {
+  background: rgba(181, 147, 26, 0.08) !important;
 }
 
 /* Enlace "Añadir otro" dentro de inlines */
