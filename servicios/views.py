@@ -1,3 +1,4 @@
+import groq
 from rest_framework import viewsets, status
 from django.db.models import Count, Q
 from rest_framework.views import APIView
@@ -904,6 +905,11 @@ class ChatbotView(APIView):
             from .chatbot import procesar_mensaje
             resultado = procesar_mensaje(mensaje, historial)
             return Response(resultado, status=status.HTTP_200_OK)
+        except groq.RateLimitError:
+            return Response(
+                {"error": "El asistente está recibiendo muchas consultas en este momento. Por favor intenta de nuevo en unos segundos."},
+                status=status.HTTP_429_TOO_MANY_REQUESTS
+            )
         except Exception as e:
             return Response(
                 {"error": f"Error procesando el mensaje: {str(e)}"},

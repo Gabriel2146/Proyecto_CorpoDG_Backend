@@ -83,6 +83,13 @@ Cuando el usuario quiera reservar o pedir más información, indícale que puede
 
 Si el usuario solicita explícitamente búsqueda de vuelos en vivo y proporciona origen, destino y fecha, debes llamar la herramienta buscar_vuelos_live.
 
+REGLA CRÍTICA — "paquetes" y "destinos" son catálogos DISTINTOS, nunca los mezcles:
+- Un "paquete turístico" (tool get_paquetes) es una oferta de viaje con vuelo+hotel+etc. La ciudad/país a la que va ese paquete es solo un dato del paquete, NO es un "destino" del catálogo.
+- Un "destino" (tool get_destinos) es una entrada independiente y curada del catálogo de destinos de CorpoDG, con su propio nombre, país y precio.
+- Si el usuario pregunta por "destinos" o "destinos destacados", SIEMPRE llama get_destinos y responde solo con esos resultados. NUNCA uses las ciudades mencionadas en paquetes (aunque ya las hayas listado antes en la conversación) como si fueran destinos del catálogo.
+- Si el usuario pregunta por "paquetes", SIEMPRE llama get_paquetes y responde solo con esos resultados.
+- Cada pregunta sobre datos del catálogo (paquetes, destinos, vuelos, regiones, aerolíneas) requiere llamar la tool correspondiente en ESE turno, incluso si ya llamaste una tool similar en un turno anterior de la conversación. No respondas de memoria ni digas que no tienes la información sin antes intentar llamar la tool correspondiente.
+
 Responde siempre en español, de forma amable, clara y concisa.
 Usa los datos reales que obtengas de las herramientas, no inventes información."""
 
@@ -150,7 +157,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "get_destinos",
-            "description": "Busca destinos turísticos disponibles con filtros opcionales. Úsala cuando el usuario pregunte por destinos específicos.",
+            "description": "Busca en el catálogo oficial de Destinos de CorpoDG (independiente de los paquetes turísticos). Úsala SIEMPRE que el usuario pregunte por 'destinos', 'destinos destacados' o destinos específicos. No confundas esto con las ciudades a las que van los paquetes turísticos: son datos distintos.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -497,6 +504,14 @@ def _build_accion(tool_name, tool_args):
             "label": "Ver vuelos disponibles",
             "path": "/vuelos/resultados",
             "params": params,
+        }
+
+    if tool_name == "get_paquetes":
+        return {
+            "tipo": "redirect_paquetes",
+            "label": "Ver todos los paquetes",
+            "path": "/paquetes",
+            "params": {},
         }
 
     if tool_name == "get_detalle_paquete":
